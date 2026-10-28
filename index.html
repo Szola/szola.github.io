@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lista na Mikołajki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --snow: #F2F5F9;
+    --paper: #FFFFFF;
+    --ink: #1C2433;
+    --muted: #5E6B7F;
+    --frost: #D9E4F0;
+    --red: #A41E35;
+    --red-dark: #82172A;
+    --pine: #1F4B3B;
+    --pine-soft: #E3EFE9;
+    --display: "Fraunces", Georgia, "Times New Roman", serif;
+    --body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--snow); color: var(--ink);
+    font: 400 1rem/1.45 var(--body);
+    padding: 28px 18px 56px;
+  }
+  .wrap { max-width: 620px; margin: 0 auto; }
+
+  /* Nagłówek */
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+  h1 {
+    font: 700 clamp(2.3rem, 11vw, 3.5rem)/1 var(--display);
+    letter-spacing: -0.015em; margin: 6px 0 0; color: var(--ink);
+  }
+  .lead { margin: 10px 0 0; color: var(--muted); max-width: 30ch; }
+  .tag {
+    flex: none; width: 86px; padding: 30px 6px 12px; text-align: center; color: #fff;
+    background: radial-gradient(circle at 50% 17px, var(--snow) 0 6px, transparent 6.5px), var(--red);
+    clip-path: polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+    transform: rotate(4deg); transform-origin: 50% 0;
+  }
+  .tag b { display: block; font: 700 2.3rem/1 var(--display); }
+  .tag span { display: block; margin-top: 4px; font-size: .78rem; line-height: 1.2; opacity: .95; }
+
+  /* Formularz */
+  .panel { background: var(--paper); border: 1px solid var(--frost); border-radius: 20px; padding: 18px; }
+  label { display: block; font-weight: 600; font-size: .92rem; margin: 0 0 6px; }
+  input[type=text], input[type=url] {
+    width: 100%; min-height: 48px; padding: 10px 14px; font: inherit; font-size: 16px; color: var(--ink);
+    background: var(--snow); border: 1.5px solid transparent; border-radius: 12px;
+  }
+  input::placeholder { color: #8A96A8; }
+  input:focus { outline: none; border-color: var(--red); background: #fff; }
+  .field + .field { margin-top: 14px; }
+  .hint { margin: 0; font-size: .88rem; color: var(--red); }
+  .hint:not(:empty) { margin-top: 10px; }
+  .btn {
+    min-height: 48px; padding: 0 20px; border: 0; border-radius: 999px; cursor: pointer;
+    font: 600 1rem var(--body); color: #fff; background: var(--red);
+  }
+  .btn:hover { background: var(--red-dark); }
+  .btn.block { width: 100%; margin-top: 16px; }
+  .btn:disabled { opacity: .55; cursor: default; }
+  :focus-visible { outline: 3px solid var(--pine); outline-offset: 2px; }
+  .whoami { margin-bottom: 14px; }
+
+  /* Lista */
+  .group { margin-top: 34px; }
+  .group h2 {
+    font: 700 1.55rem/1.15 var(--display); margin: 0; display: flex; align-items: baseline; gap: 10px;
+  }
+  .group h2 small { font: 500 .85rem var(--body); color: var(--muted); }
+  .group.me h2 { color: var(--red); }
+  ul { list-style: none; margin: 10px 0 0; padding: 0; }
+  li {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 0; border-top: 1px solid var(--frost);
+  }
+  li:last-child { border-bottom: 1px solid var(--frost); }
+  .gift { min-width: 0; overflow-wrap: anywhere; }
+  .gift .name { font-weight: 600; }
+  .gift a { display: inline-block; margin-top: 2px; font-size: .86rem; color: var(--pine); text-underline-offset: 3px; }
+  li.taken .name { color: var(--muted); }
+  .act {
+    flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px; cursor: pointer;
+    font: 600 .92rem var(--body); border: 1.5px solid var(--pine); color: var(--pine); background: transparent;
+  }
+  .act:hover { background: var(--pine-soft); }
+  .act.del { border-color: var(--frost); color: var(--muted); }
+  .act.del.confirm { border-color: var(--red); color: var(--red); }
+  .badge {
+    flex: none; text-align: right; font-size: .84rem; color: var(--pine); background: var(--pine-soft);
+    padding: 6px 12px; border-radius: 12px; max-width: 42%; overflow-wrap: anywhere;
+  }
+  .empty { margin-top: 34px; text-align: center; color: var(--muted); }
+  .empty b { display: block; font: 700 1.3rem var(--display); color: var(--ink); margin-bottom: 4px; }
+  footer { margin-top: 40px; font-size: .84rem; color: var(--muted); }
+  footer p { margin: 0 0 6px; }
+  .sync { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pine); }
+  .dot.off { background: var(--red); }
+  @media (prefers-reduced-motion: no-preference) {
+    .tag { transition: transform .4s ease; }
+    .tag:hover { transform: rotate(-2deg); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Lista na Mikołajki</h1>
+      <p class="lead">Wpisz, co chcesz znaleźć w bucie. Reszta zobaczy listę od razu.</p>
+    </div>
+    <div class="tag" aria-live="polite"><b id="days">–</b><span id="daysLabel">do 6 grudnia</span></div>
+  </header>
+
+  <section class="panel" aria-label="Dodaj prezent">
+    <div class="field whoami">
+      <label for="who">Twoje imię</label>
+      <input id="who" type="text" maxlength="30" autocomplete="given-name" placeholder="np. Ola">
+    </div>
+    <div class="field">
+      <label for="gift">Co chcesz dostać?</label>
+      <input id="gift" type="text" maxlength="120" autocomplete="off" placeholder="np. gra planszowa Dobble">
+    </div>
+    <div class="field">
+      <label for="link">Link do sklepu (opcjonalnie)</label>
+      <input id="link" type="url" inputmode="url" maxlength="300" autocomplete="off" placeholder="sklep.pl/produkt">
+    </div>
+    <p class="hint" id="hint" role="status"></p>
+    <button class="btn block" id="add" type="button">Dodaj do listy</button>
+  </section>
+
+  <main id="list" aria-live="polite"></main>
+
+  <footer>
+    <p class="sync"><span class="dot" id="dot"></span><span id="syncText">Łączę z listą…</span></p>
+    <p>Swoje życzenia usuniesz tylko z tego urządzenia. Nie zobaczysz, kto zarezerwował Twoje prezenty, bo to niespodzianka.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var mem = {};
+  function store(k, v) {
+    try {
+      if (v === undefined) return localStorage.getItem(k) || mem[k] || '';
+      localStorage.setItem(k, v);
+    } catch (e) { if (v === undefined) return mem[k] || ''; }
+    mem[k] = v;
+  }
+  var token = store('mik_token');
+  if (!token) {
+    token = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+      : 't' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    store('mik_token', token);
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var whoEl = $('who'), giftEl = $('gift'), linkEl = $('link'), hintEl = $('hint'), addBtn = $('add');
+  var items = [], busy = false;
+  whoEl.value = store('mik_name');
+  whoEl.addEventListener('input', function () { store('mik_name', whoEl.value.trim()); hintEl.textContent = ''; });
+
+  // >>> Wklej tutaj adres wdrożenia z Apps Script (kończy się na /exec) <<<
+  var API = 'https://script.google.com/macros/s/AKfycbwFtFDP4NiNgczQdENDltwLqUF94MiOvQ-dSZBwSN9TGBGOCGi7Jb1gp2bXac4GKlSM5w/exec';
+
+  var PARAMS = {
+    getItems:      function (a) { return { action: 'list', token: a[0] }; },
+    addItem:       function (a) { return { action: 'add', token: a[0], who: a[1], gift: a[2], link: a[3] || '' }; },
+    deleteItem:    function (a) { return { action: 'delete', token: a[0], id: a[1] }; },
+    toggleReserve: function (a) { return { action: 'reserve', token: a[0], who: a[1], id: a[2] }; }
+  };
+  // Zapytania idą bez ciasteczek, więc liczba zalogowanych kont Google nie ma znaczenia.
+  function call(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    if (API.indexOf('https://') !== 0) return Promise.reject(new Error('Brak adresu serwera. Uzupełnij zmienną API w pliku index.html.'));
+    var q = new URLSearchParams(PARAMS[fn](args));
+    q.set('_', Date.now());
+    return fetch(API + '?' + q.toString(), { method: 'GET', credentials: 'omit', cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.error) throw new Error(d.error); return d.items; });
+  }
+  function hint(msg) { hintEl.textContent = msg || ''; }
+  function setSync(ok, text) {
+    $('dot').className = 'dot' + (ok ? '' : ' off');
+    $('syncText').textContent = text;
+  }
+  function errText(e) { return (e && e.message ? e.message : 'Coś poszło nie tak.').replace(/^Error:\s*/, ''); }
+
+  /* Odliczanie do 6 grudnia */
+  (function countdown() {
+    var now = new Date(), y = now.getFullYear();
+    var today = new Date(y, now.getMonth(), now.getDate());
+    var target = new Date(y, 11, 6);
+    if (today > target) target = new Date(y + 1, 11, 6);
+    var d = Math.round((target - today) / 86400000);
+    if (d === 0) { $('days').textContent = '🎁'; $('daysLabel').textContent = 'Dziś Mikołajki!'; return; }
+    $('days').textContent = d;
+    $('daysLabel').textContent = (d === 1 ? 'dzień' : 'dni') + ' do 6 grudnia';
+  })();
+
+  function host(url) { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return 'link'; } }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function render() {
+    var root = $('list');
+    root.textContent = '';
+    if (!items.length) {
+      var e = el('div', 'empty');
+      e.appendChild(el('b', null, 'Lista jest jeszcze pusta'));
+      e.appendChild(el('span', null, 'Dodaj pierwszy prezent w formularzu powyżej.'));
+      root.appendChild(e);
+      return;
+    }
+    var groups = {}, order = [];
+    items.forEach(function (it) {
+      var key = it.who.toLowerCase();
+      if (!groups[key]) { groups[key] = { name: it.who, list: [], mine: false }; order.push(key); }
+      groups[key].list.push(it);
+      if (it.mine) groups[key].mine = true;
+    });
+    order.sort(function (a, b) {
+      if (groups[a].mine !== groups[b].mine) return groups[a].mine ? -1 : 1;
+      return groups[a].name.localeCompare(groups[b].name, 'pl');
+    });
+    order.forEach(function (key) {
+      var g = groups[key];
+      var sec = el('section', 'group' + (g.mine ? ' me' : ''));
+      var h = el('h2', null, g.name);
+      h.appendChild(el('small', null, g.list.length + ' ' + plural(g.list.length)));
+      sec.appendChild(h);
+      var ul = el('ul');
+      g.list.forEach(function (it) { ul.appendChild(row(it)); });
+      sec.appendChild(ul);
+      root.appendChild(sec);
+    });
+  }
+  function plural(n) { return n === 1 ? 'prezent' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? 'prezenty' : 'prezentów'; }
+
+  function row(it) {
+    var li = el('li', it.reservedBy ? 'taken' : '');
+    var g = el('div', 'gift');
+    g.appendChild(el('div', 'name', it.gift));
+    if (/^https?:\/\//i.test(it.link)) {
+      var a = el('a', null, host(it.link));
+      a.href = it.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      g.appendChild(a);
+    }
+    li.appendChild(g);
+
+    if (it.mine) {
+      var del = el('button', 'act del', 'Usuń');
+      del.type = 'button';
+      var armed = false, t;
+      del.addEventListener('click', function () {
+        if (!armed) {
+          armed = true; del.textContent = 'Na pewno?'; del.classList.add('confirm');
+          t = setTimeout(function () { armed = false; del.textContent = 'Usuń'; del.classList.remove('confirm'); }, 3000);
+          return;
+        }
+        clearTimeout(t);
+        run('deleteItem', token, it.id);
+      });
+      li.appendChild(del);
+    } else if (it.reservedByMe) {
+      var cancel = el('button', 'act', 'Anuluj rezerwację');
+      cancel.type = 'button';
+      cancel.addEventListener('click', function () { run('toggleReserve', token, whoEl.value, it.id); });
+      li.appendChild(cancel);
+    } else if (it.reservedBy) {
+      li.appendChild(el('span', 'badge', 'Zarezerwowane: ' + it.reservedBy));
+    } else {
+      var res = el('button', 'act', 'Zarezerwuj');
+      res.type = 'button';
+      res.addEventListener('click', function () {
+        if (!whoEl.value.trim()) { hint('Wpisz swoje imię, żeby zarezerwować prezent.'); whoEl.focus(); whoEl.scrollIntoView({ block: 'center' }); return; }
+        run('toggleReserve', token, whoEl.value, it.id);
+      });
+      li.appendChild(res);
+    }
+    return li;
+  }
+
+  function run(fn) {
+    if (busy) return Promise.resolve();
+    busy = true;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return call.apply(null, [fn].concat(args)).then(function (data) {
+      items = data; render(); setSync(true, 'Zsynchronizowano');
+    }).catch(function (e) { hint(errText(e)); refresh(); }).then(function () { busy = false; });
+  }
+
+  addBtn.addEventListener('click', function () {
+    var who = whoEl.value.trim(), gift = giftEl.value.trim();
+    if (!who) { hint('Wpisz swoje imię.'); whoEl.focus(); return; }
+    if (!gift) { hint('Wpisz, co chcesz dostać.'); giftEl.focus(); return; }
+    hint(''); addBtn.disabled = true; addBtn.textContent = 'Dodaję…';
+    run('addItem', token, who, gift, linkEl.value).then(function () {
+      if (!hintEl.textContent) { giftEl.value = ''; linkEl.value = ''; giftEl.focus(); }
+      addBtn.disabled = false; addBtn.textContent = 'Dodaj do listy';
+    });
+  });
+  giftEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') addBtn.click(); });
+  linkEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') addBtn.click(); });
+
+  function refresh() {
+    if (busy) return;
+    call('getItems', token).then(function (data) {
+      if (busy) return;
+      items = data; render(); setSync(true, 'Zsynchronizowano');
+    }).catch(function (e) { setSync(false, /^Brak adresu/.test(errText(e)) ? errText(e) : 'Brak połączenia. Próbuję ponownie…'); });
+  }
+  refresh();
+  setInterval(function () { if (!document.hidden) refresh(); }, 10000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+})();
+</script>
+</body>
+</html>
