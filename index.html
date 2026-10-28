@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lista na Mikołajki</title>
+<title>Sumczykowe Mikołaje</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -16,93 +16,90 @@
     --frost: #D9E4F0;
     --red: #A41E35;
     --red-dark: #82172A;
+    --red-tint: #FFF5F6;
+    --red-line: #F1CDD3;
     --pine: #1F4B3B;
-    --pine-soft: #E3EFE9;
+    --pine-dark: #173a2d;
     --display: "Fraunces", Georgia, "Times New Roman", serif;
     --body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; background: var(--snow); color: var(--ink);
-    font: 400 1rem/1.45 var(--body);
-    padding: 28px 18px 56px;
-  }
+  body { margin: 0; background: var(--snow); color: var(--ink); font: 400 1rem/1.45 var(--body); padding: 28px 18px 56px; }
   .wrap { max-width: 620px; margin: 0 auto; }
 
-  /* Nagłówek */
-  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
-  h1 {
-    font: 700 clamp(2.3rem, 11vw, 3.5rem)/1 var(--display);
-    letter-spacing: -0.015em; margin: 6px 0 0; color: var(--ink);
-  }
-  .lead { margin: 10px 0 0; color: var(--muted); max-width: 30ch; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  h1 { font: 700 clamp(2.2rem, 10.5vw, 3.6rem)/1 var(--display); letter-spacing: -0.015em; margin: 6px 0 0; }
+  .lead { margin: 10px 0 0; color: var(--muted); max-width: 44ch; }
   .tag {
-    flex: none; width: 86px; padding: 30px 6px 12px; text-align: center; color: #fff;
+    flex: none; width: 90px; padding: 30px 6px 12px; text-align: center; color: #fff;
     background: radial-gradient(circle at 50% 17px, var(--snow) 0 6px, transparent 6.5px), var(--red);
     clip-path: polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
     transform: rotate(4deg); transform-origin: 50% 0;
   }
   .tag b { display: block; font: 700 2.3rem/1 var(--display); }
-  .tag span { display: block; margin-top: 4px; font-size: .78rem; line-height: 1.2; opacity: .95; }
+  .tag span { display: block; margin-top: 4px; font-size: .78rem; line-height: 1.2; }
 
-  /* Formularz */
-  .panel { background: var(--paper); border: 1px solid var(--frost); border-radius: 20px; padding: 18px; }
-  label { display: block; font-weight: 600; font-size: .92rem; margin: 0 0 6px; }
+  /* Siatka prostokątów */
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 26px; }
+  .card {
+    background: var(--paper); border: 2px solid var(--frost); border-radius: 20px;
+    overflow: hidden; display: flex; flex-direction: column; min-height: 230px;
+  }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px 12px 18px; border-bottom: 2px solid var(--frost); }
+  .head h2 { font: 700 1.45rem/1.15 var(--display); margin: 0; overflow-wrap: anywhere; }
+  .upd {
+    flex: none; min-height: 40px; padding: 0 18px; border: 0; border-radius: 999px; cursor: pointer;
+    font: 600 .92rem var(--body); color: #fff; background: var(--red);
+  }
+  .upd:hover { background: var(--red-dark); }
+  ul { list-style: none; margin: 0; padding: 0 18px; flex: 1; }
+  li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 2px solid var(--frost); }
+  .gift { min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
+  .side { flex: none; display: flex; align-items: center; gap: 8px; }
+  .linkbtn {
+    display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 36px;
+    border-radius: 10px; background: var(--pine); color: #fff; text-decoration: none;
+  }
+  .linkbtn:hover { background: var(--pine-dark); }
+  .linkbtn svg { width: 18px; height: 18px; }
+  .del { min-height: 40px; padding: 0 14px; border-radius: 999px; cursor: pointer; font: 600 .88rem var(--body); border: 1.5px solid var(--red-line); color: var(--muted); background: transparent; }
+  .del.confirm { border-color: var(--red); color: var(--red); }
+
+  /* Tryb edycji */
+  .card.editing { border-color: var(--red); }
+  .card.editing .head { background: var(--red-tint); border-bottom-color: var(--red-line); }
+  .card.editing li { border-bottom-color: var(--red-line); }
+  .card.editing .upd { background: var(--pine); }
+  .card.editing .upd:hover { background: var(--pine-dark); }
+  form.add { display: none; padding: 14px 18px 18px; background: var(--red-tint); }
+  .card.editing form.add { display: block; }
   input[type=text], input[type=url] {
     width: 100%; min-height: 48px; padding: 10px 14px; font: inherit; font-size: 16px; color: var(--ink);
-    background: var(--snow); border: 1.5px solid transparent; border-radius: 12px;
+    background: #fff; border: 1.5px solid var(--frost); border-radius: 12px;
   }
   input::placeholder { color: #8A96A8; }
-  input:focus { outline: none; border-color: var(--red); background: #fff; }
-  .field + .field { margin-top: 14px; }
-  .hint { margin: 0; font-size: .88rem; color: var(--red); }
-  .hint:not(:empty) { margin-top: 10px; }
-  .btn {
-    min-height: 48px; padding: 0 20px; border: 0; border-radius: 999px; cursor: pointer;
-    font: 600 1rem var(--body); color: #fff; background: var(--red);
-  }
+  input:focus { outline: none; border-color: var(--red); }
+  form.add input + input { margin-top: 8px; }
+  .btn { width: 100%; margin-top: 10px; min-height: 48px; border: 0; border-radius: 999px; cursor: pointer; font: 600 1rem var(--body); color: #fff; background: var(--red); }
   .btn:hover { background: var(--red-dark); }
-  .btn.block { width: 100%; margin-top: 16px; }
   .btn:disabled { opacity: .55; cursor: default; }
+  .hint { margin: 8px 0 0; font-size: .88rem; color: var(--red); }
+  .hint:empty { display: none; }
   :focus-visible { outline: 3px solid var(--pine); outline-offset: 2px; }
-  .whoami { margin-bottom: 14px; }
 
-  /* Lista */
-  .group { margin-top: 34px; }
-  .group h2 {
-    font: 700 1.55rem/1.15 var(--display); margin: 0; display: flex; align-items: baseline; gap: 10px;
-  }
-  .group h2 small { font: 500 .85rem var(--body); color: var(--muted); }
-  .group.me h2 { color: var(--red); }
-  ul { list-style: none; margin: 10px 0 0; padding: 0; }
-  li {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 14px 0; border-top: 1px solid var(--frost);
-  }
-  li:last-child { border-bottom: 1px solid var(--frost); }
-  .gift { min-width: 0; overflow-wrap: anywhere; }
-  .gift .name { font-weight: 600; }
-  .gift a { display: inline-block; margin-top: 2px; font-size: .86rem; color: var(--pine); text-underline-offset: 3px; }
-  li.taken .name { color: var(--muted); }
-  .act {
-    flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px; cursor: pointer;
-    font: 600 .92rem var(--body); border: 1.5px solid var(--pine); color: var(--pine); background: transparent;
-  }
-  .act:hover { background: var(--pine-soft); }
-  .act.del { border-color: var(--frost); color: var(--muted); }
-  .act.del.confirm { border-color: var(--red); color: var(--red); }
-  .badge {
-    flex: none; text-align: right; font-size: .84rem; color: var(--pine); background: var(--pine-soft);
-    padding: 6px 12px; border-radius: 12px; max-width: 42%; overflow-wrap: anywhere;
-  }
-  .empty { margin-top: 34px; text-align: center; color: var(--muted); }
-  .empty b { display: block; font: 700 1.3rem var(--display); color: var(--ink); margin-bottom: 4px; }
-  footer { margin-top: 40px; font-size: .84rem; color: var(--muted); }
+  footer { margin-top: 36px; font-size: .84rem; color: var(--muted); }
   footer p { margin: 0 0 6px; }
   .sync { display: flex; align-items: center; gap: 8px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pine); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.ok { background: var(--pine); }
   .dot.off { background: var(--red); }
+
+  @media (max-width: 879px) { .card { min-height: 150px; } }
+  @media (min-width: 880px) {
+    .wrap { max-width: 1080px; }
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  }
   @media (prefers-reduced-motion: no-preference) {
     .tag { transition: transform .4s ease; }
     .tag:hover { transform: rotate(-2deg); }
@@ -113,155 +110,179 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>Lista na Mikołajki</h1>
-      <p class="lead">Wpisz, co chcesz znaleźć w bucie. Reszta zobaczy listę od razu.</p>
+      <h1>Sumczykowe Mikołaje</h1>
     </div>
-    <div class="tag" aria-live="polite"><b id="days">–</b><span id="daysLabel">do 6 grudnia</span></div>
+    <div class="tag" aria-live="polite"><b id="days">–</b><span id="daysLabel">do Wigilii</span></div>
   </header>
 
-  <section class="panel" aria-label="Dodaj prezent">
-    <div class="field whoami">
-      <label for="who">Twoje imię</label>
-      <input id="who" type="text" maxlength="30" autocomplete="given-name" placeholder="np. Ola">
-    </div>
-    <div class="field">
-      <label for="gift">Co chcesz dostać?</label>
-      <input id="gift" type="text" maxlength="120" autocomplete="off" placeholder="np. gra planszowa Dobble">
-    </div>
-    <div class="field">
-      <label for="link">Link do sklepu (opcjonalnie)</label>
-      <input id="link" type="url" inputmode="url" maxlength="300" autocomplete="off" placeholder="sklep.pl/produkt">
-    </div>
-    <p class="hint" id="hint" role="status"></p>
-    <button class="btn block" id="add" type="button">Dodaj do listy</button>
-  </section>
-
-  <main id="list" aria-live="polite"></main>
+  <main class="grid" id="grid"></main>
 
   <footer>
     <p class="sync"><span class="dot" id="dot"></span><span id="syncText">Łączę z listą…</span></p>
-    <p>Swoje życzenia usuniesz tylko z tego urządzenia. Nie zobaczysz, kto zarezerwował Twoje prezenty, bo to niespodzianka.</p>
   </footer>
 </div>
 
 <script>
 (function () {
-  var mem = {};
-  function store(k, v) {
-    try {
-      if (v === undefined) return localStorage.getItem(k) || mem[k] || '';
-      localStorage.setItem(k, v);
-    } catch (e) { if (v === undefined) return mem[k] || ''; }
-    mem[k] = v;
-  }
-  var token = store('mik_token');
-  if (!token) {
-    token = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
-      : 't' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-    store('mik_token', token);
-  }
-
-  var $ = function (id) { return document.getElementById(id); };
-  var whoEl = $('who'), giftEl = $('gift'), linkEl = $('link'), hintEl = $('hint'), addBtn = $('add');
-  var items = [], busy = false;
-  whoEl.value = store('mik_name');
-  whoEl.addEventListener('input', function () { store('mik_name', whoEl.value.trim()); hintEl.textContent = ''; });
-
-  // >>> Wklej tutaj adres wdrożenia z Apps Script (kończy się na /exec) <<<
+  // >>> Adres wdrożenia z Apps Script (kończy się na /exec) <<<
   var API = 'https://script.google.com/macros/s/AKfycbwFtFDP4NiNgczQdENDltwLqUF94MiOvQ-dSZBwSN9TGBGOCGi7Jb1gp2bXac4GKlSM5w/exec';
 
-  var PARAMS = {
-    getItems:      function (a) { return { action: 'list', token: a[0] }; },
-    addItem:       function (a) { return { action: 'add', token: a[0], who: a[1], gift: a[2], link: a[3] || '' }; },
-    deleteItem:    function (a) { return { action: 'delete', token: a[0], id: a[1] }; },
-    toggleReserve: function (a) { return { action: 'reserve', token: a[0], who: a[1], id: a[2] }; }
-  };
-  // Zapytania idą bez ciasteczek, więc liczba zalogowanych kont Google nie ma znaczenia.
-  function call(fn) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    if (API.indexOf('https://') !== 0) return Promise.reject(new Error('Brak adresu serwera. Uzupełnij zmienną API w pliku index.html.'));
-    var q = new URLSearchParams(PARAMS[fn](args));
-    q.set('_', Date.now());
-    return fetch(API + '?' + q.toString(), { method: 'GET', credentials: 'omit' })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { if (d.error) throw new Error(d.error); return d.items; });
-  }
-  function hint(msg) { hintEl.textContent = msg || ''; }
-  function setSync(ok, text) {
-    $('dot').className = 'dot' + (ok ? '' : ' off');
-    $('syncText').textContent = text;
-  }
-  function errText(e) { return (e && e.message ? e.message : 'Coś poszło nie tak.').replace(/^Error:\s*/, ''); }
+  // Prostokąty istnieją od razu. Jeśli serwer zwróci inną listę osób (Code.gs), strona ją przejmie.
+  var DEFAULT_PEOPLE = ['Tata', 'Mama', 'Ola', 'Tomek Piecha', 'Asia', 'Piotrek', 'Kacper', 'Iza', 'Tomek Bomek'];
 
-  /* Odliczanie do 6 grudnia */
-  (function countdown() {
-    var now = new Date(), y = now.getFullYear();
-    var today = new Date(y, now.getMonth(), now.getDate());
-    var target = new Date(y, 11, 6);
-    if (today > target) target = new Date(y + 1, 11, 6);
-    var d = Math.round((target - today) / 86400000);
-    if (d === 0) { $('days').textContent = '🎁'; $('daysLabel').textContent = 'Dziś Mikołajki!'; return; }
-    $('days').textContent = d;
-    $('daysLabel').textContent = (d === 1 ? 'dzień' : 'dni') + ' do 6 grudnia';
-  })();
-
-  function host(url) { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return 'link'; } }
+  var $ = function (id) { return document.getElementById(id); };
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
   }
+  function errText(e) { return (e && e.message ? e.message : 'Coś poszło nie tak.').replace(/^Error:\s*/, ''); }
+  function host(url) { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return 'link'; } }
 
-  function render() {
-    var root = $('list');
-    root.textContent = '';
-    if (!items.length) {
-      var e = el('div', 'empty');
-      e.appendChild(el('b', null, 'Lista jest jeszcze pusta'));
-      e.appendChild(el('span', null, 'Dodaj pierwszy prezent w formularzu powyżej.'));
-      root.appendChild(e);
-      return;
+  var people = DEFAULT_PEOPLE.slice(), items = [], editing = '', builtKey = '', lastItems = '', busy = false;
+  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
+
+  /* Odliczanie do Wigilii */
+  (function () {
+    var now = new Date(), y = now.getFullYear();
+    var today = new Date(y, now.getMonth(), now.getDate());
+    var target = new Date(y, 11, 24);
+    if (today > target) target = new Date(y + 1, 11, 24);
+    var d = Math.round((target - today) / 86400000);
+    if (d === 0) { $('days').textContent = '🎄'; $('daysLabel').textContent = 'Dziś Wigilia!'; return; }
+    $('days').textContent = d;
+    $('daysLabel').textContent = (d === 1 ? 'dzień' : 'dni') + ' do Wigilii';
+  })();
+
+  /* Komunikacja z serwerem (bez ciasteczek, więc liczba zalogowanych kont Google nie ma znaczenia) */
+  function api(params) {
+    if (API.indexOf('https://') !== 0) return Promise.reject(new Error('Brak adresu serwera. Uzupełnij zmienną API w pliku index.html.'));
+    var q = new URLSearchParams(params);
+    q.set('_', Date.now());
+    return fetch(API + '?' + q.toString(), { method: 'GET', credentials: 'omit' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.error) throw new Error(d.error); return d; });
+  }
+  function setSync(ok, text) {
+    $('dot').className = 'dot ' + (ok ? 'ok' : 'off');
+    $('syncText').textContent = text;
+  }
+
+  function apply(d) {
+    var np = (d.people && d.people.length) ? d.people : people;
+    var key = np.join('|');
+    var rebuilt = false;
+    if (key !== builtKey) {
+      people = np; builtKey = key;
+      if (editing && people.indexOf(editing) < 0) editing = '';
+      buildAll(); rebuilt = true;
     }
-    var groups = {}, order = [];
-    items.forEach(function (it) {
-      var key = it.who.toLowerCase();
-      if (!groups[key]) { groups[key] = { name: it.who, list: [], mine: false }; order.push(key); }
-      groups[key].list.push(it);
-      if (it.mine) groups[key].mine = true;
-    });
-    order.sort(function (a, b) {
-      if (groups[a].mine !== groups[b].mine) return groups[a].mine ? -1 : 1;
-      return groups[a].name.localeCompare(groups[b].name, 'pl');
-    });
-    order.forEach(function (key) {
-      var g = groups[key];
-      var sec = el('section', 'group' + (g.mine ? ' me' : ''));
-      var h = el('h2', null, g.name);
-      h.appendChild(el('small', null, g.list.length + ' ' + plural(g.list.length)));
-      sec.appendChild(h);
-      var ul = el('ul');
-      g.list.forEach(function (it) { ul.appendChild(row(it)); });
-      sec.appendChild(ul);
-      root.appendChild(sec);
+    var json = JSON.stringify(d.items || []);
+    if (rebuilt || json !== lastItems) { lastItems = json; items = d.items || []; fillLists(); }
+  }
+
+  function refresh() {
+    if (busy) return;
+    api({ action: 'list' }).then(function (d) {
+      if (busy) return;
+      apply(d); setSync(true, 'Zsynchronizowano');
+    }).catch(function (e) {
+      setSync(false, /^Brak adresu/.test(errText(e)) ? errText(e) : 'Brak połączenia. Próbuję ponownie…');
     });
   }
-  function plural(n) { return n === 1 ? 'prezent' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? 'prezenty' : 'prezentów'; }
 
-  function row(it) {
-    var li = el('li', it.reservedBy ? 'taken' : '');
-    var g = el('div', 'gift');
-    g.appendChild(el('div', 'name', it.gift));
-    if (/^https?:\/\//i.test(it.link)) {
-      var a = el('a', null, host(it.link));
-      a.href = it.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
-      g.appendChild(a);
+  /* Prostokąty */
+  function cards() { return Array.prototype.slice.call($('grid').children); }
+
+  function buildAll() {
+    var grid = $('grid');
+    grid.textContent = '';
+    people.forEach(function (n) { grid.appendChild(card(n)); });
+    syncEditUI();
+  }
+
+  function card(name) {
+    var c = el('section', 'card');
+    c.setAttribute('data-who', name);
+    var head = el('div', 'head');
+    head.appendChild(el('h2', null, name));
+    var btn = el('button', 'upd', 'Edytuj'); btn.type = 'button';
+    btn.addEventListener('click', function () { toggleEdit(name); });
+    head.appendChild(btn);
+    c.appendChild(head);
+    c.appendChild(el('ul'));
+    c.appendChild(form(name));
+    return c;
+  }
+
+  function syncEditUI() {
+    cards().forEach(function (c) {
+      var on = c.getAttribute('data-who') === editing;
+      c.classList.toggle('editing', on);
+      var b = c.querySelector('.upd');
+      b.textContent = on ? 'Gotowe' : 'Edytuj';
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function toggleEdit(name) {
+    editing = (editing === name) ? '' : name;
+    syncEditUI();
+    fillLists();
+    if (editing) {
+      var inp = document.querySelector('.card.editing input');
+      if (inp) inp.focus();
     }
-    li.appendChild(g);
+  }
 
-    if (it.mine) {
-      var del = el('button', 'act del', 'Usuń');
-      del.type = 'button';
+  function form(name) {
+    var f = el('form', 'add'); f.setAttribute('autocomplete', 'off'); f.noValidate = true;
+    var g = el('input'); g.type = 'text'; g.maxLength = 120; g.placeholder = 'Pomysł na prezent'; g.setAttribute('aria-label', 'Pomysł na prezent dla: ' + name);
+    var l = el('input'); l.type = 'url'; l.maxLength = 300; l.placeholder = 'Link (opcjonalnie)'; l.setAttribute('aria-label', 'Link do sklepu, opcjonalnie'); l.setAttribute('inputmode', 'url');
+    var b = el('button', 'btn', 'Dodaj'); b.type = 'submit';
+    var h = el('p', 'hint'); h.setAttribute('role', 'status');
+    f.appendChild(g); f.appendChild(l); f.appendChild(b); f.appendChild(h);
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var gift = g.value.trim();
+      if (!gift) { h.textContent = 'Wpisz pomysł na prezent.'; g.focus(); return; }
+      h.textContent = ''; b.disabled = true; b.textContent = 'Dodaję…';
+      busy = true;
+      api({ action: 'add', who: name, gift: gift, link: l.value.trim() }).then(function (d) {
+        busy = false; g.value = ''; l.value = ''; apply(d); setSync(true, 'Zsynchronizowano'); g.focus();
+      }).catch(function (e) {
+        busy = false; h.textContent = errText(e);
+      }).then(function () { b.disabled = false; b.textContent = 'Dodaj'; });
+    });
+    return f;
+  }
+
+  function fillLists() {
+    cards().forEach(function (c) {
+      var name = c.getAttribute('data-who');
+      var edit = name === editing;
+      var ul = c.querySelector('ul');
+      ul.textContent = '';
+      items.filter(function (i) { return i.who === name; }).forEach(function (it) {
+        ul.appendChild(row(it, edit, name));
+      });
+    });
+  }
+
+  function row(it, edit, name) {
+    var li = el('li');
+    li.appendChild(el('div', 'gift', it.gift));
+    var side = el('div', 'side');
+    if (/^https?:\/\//i.test(it.link)) {
+      var a = el('a', 'linkbtn');
+      a.innerHTML = ARROW;
+      a.href = it.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.title = host(it.link); a.setAttribute('aria-label', 'Otwórz link: ' + host(it.link));
+      side.appendChild(a);
+    }
+    if (edit) {
+      var del = el('button', 'del', 'Usuń'); del.type = 'button';
       var armed = false, t;
       del.addEventListener('click', function () {
         if (!armed) {
@@ -270,57 +291,20 @@
           return;
         }
         clearTimeout(t);
-        run('deleteItem', token, it.id);
+        if (busy) return;
+        busy = true;
+        api({ action: 'delete', who: name, id: it.id }).then(function (d) {
+          busy = false; apply(d); setSync(true, 'Zsynchronizowano');
+        }).catch(function (e) { busy = false; setSync(false, errText(e)); });
       });
-      li.appendChild(del);
-    } else if (it.reservedByMe) {
-      var cancel = el('button', 'act', 'Anuluj rezerwację');
-      cancel.type = 'button';
-      cancel.addEventListener('click', function () { run('toggleReserve', token, whoEl.value, it.id); });
-      li.appendChild(cancel);
-    } else if (it.reservedBy) {
-      li.appendChild(el('span', 'badge', 'Zarezerwowane: ' + it.reservedBy));
-    } else {
-      var res = el('button', 'act', 'Zarezerwuj');
-      res.type = 'button';
-      res.addEventListener('click', function () {
-        if (!whoEl.value.trim()) { hint('Wpisz swoje imię, żeby zarezerwować prezent.'); whoEl.focus(); whoEl.scrollIntoView({ block: 'center' }); return; }
-        run('toggleReserve', token, whoEl.value, it.id);
-      });
-      li.appendChild(res);
+      side.appendChild(del);
     }
+    if (side.children.length) li.appendChild(side);
     return li;
   }
 
-  function run(fn) {
-    if (busy) return Promise.resolve();
-    busy = true;
-    var args = Array.prototype.slice.call(arguments, 1);
-    return call.apply(null, [fn].concat(args)).then(function (data) {
-      items = data; render(); setSync(true, 'Zsynchronizowano');
-    }).catch(function (e) { hint(errText(e)); refresh(); }).then(function () { busy = false; });
-  }
-
-  addBtn.addEventListener('click', function () {
-    var who = whoEl.value.trim(), gift = giftEl.value.trim();
-    if (!who) { hint('Wpisz swoje imię.'); whoEl.focus(); return; }
-    if (!gift) { hint('Wpisz, co chcesz dostać.'); giftEl.focus(); return; }
-    hint(''); addBtn.disabled = true; addBtn.textContent = 'Dodaję…';
-    run('addItem', token, who, gift, linkEl.value).then(function () {
-      if (!hintEl.textContent) { giftEl.value = ''; linkEl.value = ''; giftEl.focus(); }
-      addBtn.disabled = false; addBtn.textContent = 'Dodaj do listy';
-    });
-  });
-  giftEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') addBtn.click(); });
-  linkEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') addBtn.click(); });
-
-  function refresh() {
-    if (busy) return;
-    call('getItems', token).then(function (data) {
-      if (busy) return;
-      items = data; render(); setSync(true, 'Zsynchronizowano');
-    }).catch(function (e) { setSync(false, /^Brak adresu/.test(errText(e)) ? errText(e) : 'Brak połączenia. Próbuję ponownie…'); });
-  }
+  builtKey = people.join('|');
+  buildAll();
   refresh();
   setInterval(function () { if (!document.hidden) refresh(); }, 10000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
