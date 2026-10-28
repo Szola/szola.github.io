@@ -182,7 +182,7 @@
     if (API.indexOf('https://') !== 0) return Promise.reject(new Error('Brak adresu serwera. Uzupełnij zmienną API w pliku index.html.'));
     var q = new URLSearchParams(PARAMS[fn](args));
     q.set('_', Date.now());
-    return fetch(API + '?' + q.toString(), { method: 'GET', credentials: 'omit', cache: 'no-store' })
+    return fetch(API + '?' + q.toString(), { method: 'GET', credentials: 'omit' })
       .then(function (r) { return r.json(); })
       .then(function (d) { if (d.error) throw new Error(d.error); return d.items; });
   }
